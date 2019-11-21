@@ -1,13 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"owner/app/models"
 	"owner/router"
 )
 
 func main() {
-	fmt.Println("aaa")
+
+	//init router
 	r := router.InitRouter()
-	r.Run(":9899")
+
+	//init db
+	models.InitDb()
+
+	r.Run(":9600")
 }
 

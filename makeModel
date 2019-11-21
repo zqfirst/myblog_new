@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xorm reverse mysql zhangqiang:123\@\(www.zhangqq.com:3306\)/myblog_go $GOPATH/src/github.com/go-xorm/cmd/xorm/templates/goxorm/
