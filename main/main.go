@@ -9,6 +9,8 @@ import (
 
 func main() {
 
+	defer recover()
+
 	//init router
 	r := router.InitRouter()
 
@@ -22,3 +24,6 @@ func main() {
 	r.Run(fmt.Sprintf(":%d", utils.GlobalConfig.Http.Port))
 }
 
+func recover()  {
+	
+}

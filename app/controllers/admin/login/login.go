@@ -1,9 +1,11 @@
 package login
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"owner/app/utils"
+
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Login(c *gin.Context) {
@@ -20,8 +22,6 @@ func VLogin(c *gin.Context) {
 	if err := c.ShouldBind(&params); err != nil {
 		utils.ReturnError(c, utils.ERROR_LOGIN_PARAMS, nil)
 	}
-
-
 
 	cookie := &http.Cookie{
 		Name:     "session_id",
