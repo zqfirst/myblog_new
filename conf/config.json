@@ -4,9 +4,9 @@
     "mode": "release"
   },
   "mysql": {
-    "wdsn": "",
-    "rdsn": "",
-    "max_open_connections": 1000,
-    "max_idle_connections": 1000
+    "wdsn": "zhangqiang:123@tcp(www.zhangqq.com:3306)/myblog_go",
+    "rdsn": "zhangqiang:123@tcp(www.zhangqq.com:3306)/myblog_go",
+    "max_open_connections": 5,
+    "max_idle_connections": 5
   }
 }

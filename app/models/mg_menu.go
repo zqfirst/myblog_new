@@ -15,3 +15,8 @@ type MgMenu struct {
 	CreateTime time.Time `xorm:"not null default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 	UpdateTime time.Time `xorm:"not null default 'CURRENT_TIMESTAMP' TIMESTAMP"`
 }
+
+type MenuOperate struct {
+	operate
+}
+

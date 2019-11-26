@@ -9,10 +9,7 @@ import (
 
 func main() {
 
-	defer recover()
-
-	//init router
-	r := router.InitRouter()
+	defer resolve()
 
 	//init Config
 	utils.InitConfig()
@@ -20,10 +17,15 @@ func main() {
 	//init db
 	models.InitDb()
 
+	//init router
+	r := router.InitRouter()
+
 	//r.Run(":9999")
 	r.Run(fmt.Sprintf(":%d", utils.GlobalConfig.Http.Port))
 }
 
-func recover()  {
-	
+func resolve() {
+	if err := recover(); err != nil {
+		fmt.Println(err)
+	}
 }

@@ -46,5 +46,5 @@ func InitConfig() {
 		panic(fmt.Errorf("Unable to decode into struct：  %s \n", err))
 	}
 
-	fmt.Println(GlobalConfig)
+	//fmt.Println(GlobalConfig)
 }

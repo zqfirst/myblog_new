@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"owner/app/controllers/admin/login"
+	ad "owner/app/controllers/admin/admin"
 )
 
 func InitRouter() *gin.Engine {
@@ -29,8 +30,19 @@ func InitRouter() *gin.Engine {
 func setAdminRouter(r *gin.Engine) {
 	admin := r.Group("/admin",checkAdminLogin())
 	{
+		//login
 		admin.GET("/login", login.Login)
 		admin.POST("/login", login.VLogin)
+
+		//admin list
+		admin.GET("/list", ad.AdminList)
+	}
+	
+	frontend := r.Group("/web")
+	{
+		frontend.GET("/", func(c *gin.Context) {
+			c.String(http.StatusOK, ",%d", 22)
+		})
 	}
 }
 
