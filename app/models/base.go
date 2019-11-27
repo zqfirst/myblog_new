@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"owner/app/utils"
@@ -15,22 +16,24 @@ type baseDao struct {
 }
 
 var (
-	d baseDao
+	dao baseDao
 )
 
 //db init
 func InitDb() {
 
 	//init
-	d = baseDao{}
+	dao = baseDao{}
 
 	//read
-	d.r = engine(utils.GlobalConfig.Mysql.Rdsn)
-	d.rDb = d.r.DB()
+	dao.r = engine(utils.GlobalConfig.Mysql.Rdsn)
+	dao.rDb = dao.r.DB()
+
+	fmt.Println(dao.r)
 
 	//write
-	d.w = engine(utils.GlobalConfig.Mysql.Wdsn)
-	d.wDb = d.w.DB()
+	dao.w = engine(utils.GlobalConfig.Mysql.Wdsn)
+	dao.wDb = dao.w.DB()
 }
 
 func engine(dsn string) *xorm.Engine {
@@ -39,6 +42,7 @@ func engine(dsn string) *xorm.Engine {
 		panic(err)
 	}
 	engine.ShowSQL(true)
+	engine.SetTableMapper(core.SnakeMapper{})
 	engine.SetMaxOpenConns(utils.GlobalConfig.Mysql.MaxOpenConnections)
 	engine.SetMaxIdleConns(utils.GlobalConfig.Mysql.MaxIdleConnections)
 	return engine

@@ -9,8 +9,8 @@ type operate struct {
 func (this operate) QueryAll() {
 }
 
-func (this operate) QueryOne() {
-	res , e := this.r.QueryString("select * from mg_user where id=?", 1)
+func (this operate) QueryOne(id string, a interface{}) {
+	res , e := dao.r.Query("select * from mg_user")
 	if e != nil{
 		panic(e)
 	}
