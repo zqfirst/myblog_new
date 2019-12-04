@@ -1,10 +1,9 @@
 package models
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
-	"owner/app/utils"
+	"myblog/utils"
 	"xorm.io/core"
 )
 
@@ -28,8 +27,6 @@ func InitDb() {
 	//read
 	dao.r = engine(utils.GlobalConfig.Mysql.Rdsn)
 	dao.rDb = dao.r.DB()
-
-	fmt.Println(dao.r)
 
 	//write
 	dao.w = engine(utils.GlobalConfig.Mysql.Wdsn)

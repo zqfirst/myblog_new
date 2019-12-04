@@ -27,3 +27,8 @@ func (this AdminOperate) GetUser(id string) {
 	a := &MgUser{}
 	this.QueryOne(id, a)
 }
+
+func (this AdminOperate) GetUserByUserName(username string) (u MgUser) {
+	this.Query("username='"+username+"'", &u)
+	return
+}

@@ -1,7 +1,8 @@
 package login
 
 import (
-	"owner/app/utils"
+	"myblog/app/services"
+	"myblog/utils"
 
 	"net/http"
 
@@ -13,25 +14,26 @@ func Login(c *gin.Context) {
 }
 
 type LoginForm struct {
-	Username string `from:"username" json:"username" binding:"required"`
-	Password string `from:"username" json:"password" binding:"required"`
+	Username string `from:"username" form:"username" binding:"required"`
+	Password string `from:"password" form:"password" binding:"required"`
 }
 
 func VLogin(c *gin.Context) {
-	params := LoginForm{}
-	if err := c.ShouldBind(&params); err != nil {
+	var params LoginForm
+
+	if err := c.ShouldBind(&params);err != nil {
 		utils.ReturnError(c, utils.ERROR_LOGIN_PARAMS, nil)
+		return
 	}
 
-	cookie := &http.Cookie{
-		Name:     "session_id",
-		Value:    "onion", //这个是value要自己生成？？规则自定就可以？
-		Path:     "/",
-		HttpOnly: true,
+	if login :=services.CheckAdmin(params.Username, params.Password); !login{
+		utils.ReturnError(c, utils.ERROR_LOGIN_CHECKED, nil)
+		return
 	}
-	http.SetCookie(c.Writer, cookie)
-	c.JSON(http.StatusOK, gin.H{
-		"status": 1,
-		"msg":    "登录成功",
-	})
+
+	utils.SetCookie(c, utils.GlobalConfig.Http.Cookie.TokenKey, utils.Md5(params.Username), "/", 10,true)
+	utils.SetCookie(c, "username", params.Username, "/", 10,true)
+
+	data := map[string]string{"url":"/"}
+	utils.ReturnSuccess(c,data)
 }

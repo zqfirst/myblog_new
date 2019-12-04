@@ -15,12 +15,16 @@ type (
 	Http struct {
 		Port int    `mapstructure:"port"`
 		Mode string `mapstructure:"mode"`
+		Cookie Cookie `mapstructure:"cookie"`
 	}
 	Mysql struct {
 		Wdsn               string `mapstructure:"wdsn"`
 		Rdsn               string `mapstructure:"rdsn"`
 		MaxOpenConnections int    `mapstructure:"max_open_connections"`
 		MaxIdleConnections int    `mapstructure:"max_idle_connections"`
+	}
+	Cookie struct {
+		TokenKey string `mapstructure:"token_key"`
 	}
 )
 
@@ -30,8 +34,7 @@ var (
 )
 
 func init(){
-	flag.StringVar(&confPath, "cp", "$GOPATH/src/owner/conf",
-		" set config file path")
+	flag.StringVar(&confPath, "cp", "$GOPATH/src/myblog_new/conf", " set config file path")
 }
 
 func InitConfig() {

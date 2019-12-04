@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"owner/app/models"
-	"owner/app/utils"
-	"owner/router"
+	"myblog/app/models"
+	"myblog/router"
+	"myblog/utils"
 )
 
 func main() {

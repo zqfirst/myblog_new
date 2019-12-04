@@ -2,9 +2,10 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	ad "myblog/app/controllers/admin/admin"
+	"myblog/app/controllers/admin/login"
+	"myblog/utils"
 	"net/http"
-	"owner/app/controllers/admin/login"
-	ad "owner/app/controllers/admin/admin"
 )
 
 func InitRouter() *gin.Engine {
@@ -19,7 +20,7 @@ func InitRouter() *gin.Engine {
 
 	//load static file
 	r.StaticFile("/favicon.ico", "static/favicon.ico")
-	r.Static("/static","./app/static")
+	r.Static("/static", "./app/static")
 
 	setAdminRouter(r)
 
@@ -28,7 +29,7 @@ func InitRouter() *gin.Engine {
 
 //admin url
 func setAdminRouter(r *gin.Engine) {
-	admin := r.Group("/admin",checkAdminLogin())
+	admin := r.Group("/admin", checkAdminLogin)
 	{
 		//login
 		admin.GET("/login", login.Login)
@@ -37,7 +38,7 @@ func setAdminRouter(r *gin.Engine) {
 		//admin list
 		admin.GET("/list", ad.AdminList)
 	}
-	
+
 	frontend := r.Group("/web")
 	{
 		frontend.GET("/", func(c *gin.Context) {
@@ -47,23 +48,31 @@ func setAdminRouter(r *gin.Engine) {
 }
 
 //check login
-func checkAdminLogin() gin.HandlerFunc{
-	return func(c *gin.Context) {
-		if cookie, err := c.Request.Cookie("session_id"); err == nil {
-			value := cookie.Value
-			if value == "onion" {
-				c.Next()
-				return
-			}
-		}
-		if url := c.Request.URL.String(); url == "/admin/login" {
-			c.Next()
-			return
-		}
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Unauthorized",
-		})
-		c.Abort()
+func checkAdminLogin(c *gin.Context) {
+	var token,username string
+	if cookie, err := utils.GetCookie(c, utils.GlobalConfig.Http.Cookie.
+		TokenKey);
+		err == nil {
+		token = cookie.Value
+	}
+
+	if cookie, err := utils.GetCookie(c, "username");
+		err == nil {
+		username = cookie.Value
+	}
+
+	if token == utils.Md5(username){
+		c.Next()
 		return
 	}
+
+	if url := c.Request.URL.String(); url == "/admin/login" {
+		c.Next()
+		return
+	}
+	c.JSON(http.StatusUnauthorized, gin.H{
+		"error": "Unauthorized",
+	})
+	c.Abort()
+	return
 }

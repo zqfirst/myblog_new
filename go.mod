@@ -1,4 +1,4 @@
-module owner
+module myblog
 
 go 1.12
 

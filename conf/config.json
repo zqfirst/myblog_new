@@ -1,7 +1,10 @@
 {
   "http": {
     "port": 9788,
-    "mode": "release"
+    "mode": "release",
+    "cookie" : {
+      "token_key" : "utoken"
+    }
   },
   "mysql": {
     "wdsn": "zhangqiang:123@tcp(www.zhangqq.com:3306)/myblog_go",

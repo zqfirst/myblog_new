@@ -2,7 +2,7 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
-	"owner/app/models"
+	"myblog/app/models"
 )
 
 func AdminList(c *gin.Context) {
